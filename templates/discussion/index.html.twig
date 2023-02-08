@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello DiscussionController!{% endblock %}
+
+{% block body %}
+
+{% for discussion in discussions %}
+    {{ discussion.titre }}
+{% endfor %}
+
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ceci surcharge le titre{% endblock %}
+
+{% block body %}
+
+Ma discussion : {{ discussion.titre }}
+
+Mes messages :
+
+{% for message in messages %}
+    {{ message.texte }}
+{% endfor %}
+
+{% endblock %}
