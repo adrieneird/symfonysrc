@@ -5,7 +5,11 @@
 {% block body %}
 
 {% for discussion in discussions %}
-    {{ discussion.titre }}
+    <div>
+        <a href="/discussion/{{discussion.id}}">{{ discussion.titre }}</a>
+        {{ discussion.getMessagesCount() }} message{% if discussion.getMessagesCount() >= 2 %}s{% endif %}
+        <a href="/discussion_edit/{{discussion.id}}">editer</a>
+    </div>
 {% endfor %}
 
 {% endblock %}

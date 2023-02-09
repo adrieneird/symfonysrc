@@ -88,4 +88,10 @@ class Discussion
 
         return $this;
     }
+    
+    // On crée une méthode qui renvoie le compte du nombre de messages de la discussion qui renvoie un entier
+    public function getMessagesCount(): int
+    {
+        return count($this->messages);
+    }
 }

@@ -13,7 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class DiscussionController extends AbstractController
 {
-    #[Route('/discussion', name: 'app_discussion')]
+    #[Route('/', name: 'app_discussion')]
     public function index(ManagerRegistry $doctrine): Response
     {
         $discussions = $doctrine->getRepository(Discussion::class)->findAll();
@@ -60,6 +60,43 @@ class DiscussionController extends AbstractController
             $entityManager = $doctrine->getManager();
             $entityManager->persist($discussion);
             $entityManager->flush();
+            
+            return $this->redirectToRoute('app_discussion_show', ['id' => $discussion->getId()]);
+        }
+
+        // Affiche la vue avec le formulaire
+        return $this->render('discussion/new.html.twig', [
+            'form' => $form,
+        ]);
+    }
+    
+    #[Route('/discussion_edit/{id}', name: 'app_discussion_edit')]
+    public function edit($id, Request $request, ManagerRegistry $doctrine): Response
+    {
+        // Créer un objet
+        $discussion = $doctrine->getRepository(Discussion::class)->find($id);
+        
+        // Créer un formulaire orienté objet
+        $form = $this->createFormBuilder($discussion)
+            ->add('titre', TextType::class)
+            ->add('modifier', SubmitType::class)
+            ->getForm();
+
+        // Traiter le $_POST
+        $form->handleRequest($request);
+        
+        if ($form->isSubmitted()) {
+            // Récupère les données du form
+            $discussion = $form->getData();
+            // Ajout du dateheure nécessaire pour sauver
+            $discussion->setDateheure(new \Datetime());
+            
+            // Sauve dans la BDD avec l'ORM
+            $entityManager = $doctrine->getManager();
+            $entityManager->persist($discussion);
+            $entityManager->flush();
+            
+            return $this->redirectToRoute('app_discussion_show', ['id' => $discussion->getId()]);
         }
 
         // Affiche la vue avec le formulaire

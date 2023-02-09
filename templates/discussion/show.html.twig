@@ -1,15 +1,19 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Ceci surcharge le titre{% endblock %}
+{% block title %}{{ discussion.titre }}{% endblock %}
 
 {% block body %}
 
-Ma discussion : {{ discussion.titre }}
+<h1>{{ discussion.titre }}</h1>
 
-Mes messages :
+{% if discussion.getMessagesCount() %}
+<ul>
+    {% for message in messages %}
+        <li>{{ message.texte }} - par {{ message.nickname }} <a href="/message_edit/{{ message.id }}">Editer</a></li>
+    {% endfor %}
+</ul>
+{% endif %}
 
-{% for message in messages %}
-    {{ message.texte }}
-{% endfor %}
+<a href="/message_new/{{ discussion.id }}">Nouvelle réponse</a>
 
 {% endblock %}
