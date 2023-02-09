@@ -38,6 +38,21 @@ class MessageRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+    
+    /**
+     * @return Message[] Returns an array of Message objects
+     */
+    public function findByNickname($nickname): array
+    {
+        return $this->createQueryBuilder('m')
+            ->andWhere('m.nickname LIKE :nickname')
+            ->setParameter('nickname', "%".$nickname."%")
+            ->orderBy('m.dateheure', 'DESC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+    
 
 //    /**
 //     * @return Message[] Returns an array of Message objects

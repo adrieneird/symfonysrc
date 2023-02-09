@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+{{ form(form) }}
+
+{% if messages is defined %}
+<ul>
+{% for message in messages %}
+    <li>
+        {{ message.texte }} - par {{ message.nickname }}
+    </li>
+{% endfor %}
+</ul>
+{% endif %}
+
+{% endblock %}
